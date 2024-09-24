@@ -3,13 +3,6 @@
 This module implements the [rdk camera API](https://github.com/rdk/camera-api) in a mcvella:camera:image-adjust model.
 With this model, you can adjust image color, sharpness, contrast, and brightness.
 
-## Requirements
-
-_Add instructions here for any requirements._
-
-``` bash
-```
-
 ## Build and run
 
 To use this module, follow the instructions to [add a module from the Viam Registry](https://docs.viam.com/registry/configure/#add-a-modular-resource-from-the-viam-registry) and select the `rdk:camera:mcvella:camera:image-adjust` model from the [`mcvella:camera:image-adjust` module](https://app.viam.com/module/rdk/mcvella:camera:image-adjust).
