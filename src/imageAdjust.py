@@ -9,6 +9,7 @@ from viam.media.video import NamedImage, ViamImage
 from viam.proto.common import ResponseMetadata
 from viam.proto.component.camera import GetPropertiesResponse
 from viam.media.utils.pil import viam_to_pil_image, pil_to_viam_image
+from viam.media.video import CameraMimeType
 
 import PIL
 from PIL import ImageEnhance
@@ -62,7 +63,7 @@ class imageAdjust(Camera, Reconfigurable):
         if config.attributes.fields["camera"].string_value == "":
             raise Exception("A camera must be defined")
 
-        return config.attributes.fields["camera"].string_value
+        return [str(config.attributes.fields["camera"].string_value)]
 
     # Handles attribute reconfiguration
     def reconfigure(self, config: ComponentConfig, dependencies: Mapping[ResourceName, ResourceBase]):
@@ -70,7 +71,8 @@ class imageAdjust(Camera, Reconfigurable):
         self.default_brightness = float(config.attributes.fields["brightness"].number_value)
         self.default_contrast = float(config.attributes.fields["contrast"].number_value)
         self.default_sharpness = float(config.attributes.fields["sharpness"].number_value)
-        actual_cam = dependencies[Camera.get_resource_name(config.attributes.fields["camera"].string_value)]
+        cam = str(config.attributes.fields["camera"].string_value)
+        actual_cam = dependencies[Camera.get_resource_name(cam)]
         self.actual_camera = cast(Camera, actual_cam)
         return
     
@@ -79,22 +81,27 @@ class imageAdjust(Camera, Reconfigurable):
     ) -> ViamImage:
         cam_image = await self.actual_camera.get_image(mime_type="image/jpeg")
         pil_image = viam_to_pil_image(cam_image)
-        brightness = extra["brightness"] or self.default_brightness
+        brightness = extra.get("brightness", self.default_brightness)
         if brightness:
             brightness = brightness + 1
             pil_image = ImageEnhance.Brightness(pil_image)
-            pil_image.enhance(brightness)        
-        contrast = extra["contrast"] or self.default_contrast
+            pil_image = pil_image.enhance(brightness)        
+        contrast = extra.get("contrast", self.default_contrast)
         if contrast:
             contrast = contrast + 1
             pil_image = ImageEnhance.Contrast(pil_image)
-            pil_image.enhance(contrast)    
-        color = extra["color"] or self.default_color
+            pil_image = pil_image.enhance(contrast)  
+        sharpness = extra.get("sharpness", self.default_sharpness)
+        if sharpness:
+            sharpness = sharpness + 1
+            pil_image = ImageEnhance.Sharpness(pil_image)
+            pil_image = pil_image.enhance(sharpness)      
+        color = extra.get("color", self.default_color)
         if color:
             pil_image = ImageEnhance.Color(pil_image)
-            pil_image.enhance(color)
+            pil_image = pil_image.enhance(color)
         
-        return pil_to_viam_image(pil_image)
+        return pil_to_viam_image(pil_image.convert('RGB'), CameraMimeType.JPEG)
 
     async def get_images(self, *, timeout: Optional[float] = None, **kwargs) -> Tuple[List[NamedImage], ResponseMetadata]:
         raise NotImplementedError()
