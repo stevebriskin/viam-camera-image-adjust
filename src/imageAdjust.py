@@ -98,6 +98,7 @@ class imageAdjust(Camera, Reconfigurable):
             pil_image = pil_image.enhance(sharpness)      
         color = extra.get("color", self.default_color)
         if color:
+            color = color + 1
             pil_image = ImageEnhance.Color(pil_image)
             pil_image = pil_image.enhance(color)
         
