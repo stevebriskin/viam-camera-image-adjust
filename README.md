@@ -22,10 +22,10 @@ On the new component panel, copy and paste the following attribute template into
 ```json
 {
   "camera": "<actual configured camera to use to for source images>",
-  "color": "<default color adjustment>",
-  "contrast": "<default contrast adjustment>",
-  "brightness": "<default brightness adjustment>",
-  "sharpness": "<default sharpness adjustment>"
+  "color": <default color adjustment>,
+  "contrast": <default contrast adjustment>,
+  "brightness": <default brightness adjustment>,
+  "sharpness": <default sharpness adjustment>
 }
 ```
 
@@ -39,10 +39,10 @@ The following attributes are available for `rdk:camera:mcvella:camera:image-adju
 | Name | Type | Inclusion | Description |
 | ---- | ---- | --------- | ----------- |
 | `camera` | string | **Required** |  Configured physical camera |
-| `color` | string | Optional |  default color adjustment, from -1 to 0 where -1 is black and white |
-| `contrast` | string | Optional |  default contrast adjustment, from -1 to 1 where -1 is solid grey, 0 is original, and higher than 0 increases contrast |
-| `brightness` | string | Optional |  default contrast adjustment, from -1 to 1 where -1 is a black image, 0 is original, and higher than 0 increases brightness |
-| `sharpness` | string | Optional |  default contrast adjustment, from -1 to 1 where -1 is a blurred image, 0 is original, and 1 gives a sharp image |
+| `color` | float | Optional |  default color adjustment, from -1 to 0 where -1 is black and white |
+| `contrast` | float | Optional |  default contrast adjustment, from -1 to 1 where -1 is solid grey, 0 is original, and higher than 0 increases contrast |
+| `brightness` | float | Optional |  default contrast adjustment, from -1 to 1 where -1 is a black image, 0 is original, and higher than 0 increases brightness |
+| `sharpness` | float | Optional |  default contrast adjustment, from -1 to 1 where -1 is a blurred image, 0 is original, and 1 gives a sharp image |
 
 ### API
 
