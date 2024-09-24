@@ -1,0 +1,14 @@
+{
+  "$schema": "https://dl.viam.dev/module.schema.json",
+  "module_id": "mcvella:image-adjust",
+  "visibility": "public",
+  "url": "https://github.com/mcvella/viam-camera-image-adjust",
+  "description": "A transform camera that takes images from a source camera and transforms brightness/contrast/sharpness/color",
+  "models": [
+    {
+      "api": "rdk:component:camera",
+      "model": "mcvella:camera:image-adjust"
+    }
+  ],
+  "entrypoint": "run.sh"
+}
